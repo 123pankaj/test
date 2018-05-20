@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ProductDetailActivity"
+    tools:showIn="@layout/activity_product_detail">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/imagePlaceHolder"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="4dp"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/productImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_alignParentTop="true"
+                android:scaleType="fitCenter" />
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/productName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imagePlaceHolder"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/edProductName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ed_size"
+                android:hint="Enter product name"
+                android:inputType="textCapSentences"
+                android:maxLines="1" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/productLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/productName"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/edProductLocation"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ed_size"
+                android:hint="Enter product location"
+                android:inputType="textCapSentences"
+                android:maxLines="1" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/productPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/productLocation"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/edProductPrice"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ed_size"
+                android:digits="1234567890."
+                android:hint="Enter product price"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/productDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/productPrice"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/edProductDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter product description"
+                android:inputType="textMultiLine|textCapSentences"
+                android:minHeight="@dimen/ed_size" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/submitProduct"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/productDescription"
+            android:layout_marginEnd="20dp"
+            android:visibility="gone"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="Submit"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+
+</android.support.v4.widget.NestedScrollView>
