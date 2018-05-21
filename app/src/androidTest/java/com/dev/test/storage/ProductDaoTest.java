@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.functions.Consumer;
 
 @RunWith(AndroidJUnit4.class)
 public class ProductDaoTest {
@@ -40,5 +41,25 @@ public class ProductDaoTest {
         mProductDao.insertAll(new Product("test", "test", "test", "test", "test"));
         Flowable<List<Product>> dataList = mProductDao.getAllProducts();
         Assert.assertNotNull(dataList);
+        dataList.subscribe(new Consumer<List<Product>>() {
+            @Override
+            public void accept(List<Product> products) throws Exception {
+                Assert.assertEquals(products.size(), 1);
+            }
+        });
     }
+
+    @Test
+    public void shouldDeleteProduct() {
+        mProductDao.insertAll(new Product("test", "test", "test", "test", "test"));
+        Flowable<List<Product>> dataList = mProductDao.getAllProducts();
+        Assert.assertNotNull(dataList);
+        dataList.subscribe(new Consumer<List<Product>>() {
+            @Override
+            public void accept(List<Product> products) throws Exception {
+                mProductDao.delete(products.get(0).getProductId());
+            }
+        });
+    }
+
 }

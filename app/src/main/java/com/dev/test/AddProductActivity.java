@@ -2,11 +2,15 @@ package com.dev.test;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
@@ -18,6 +22,10 @@ import android.view.MenuItem;
 import com.dev.test.entities.Product;
 import com.dev.test.storage.DatabaseCallback;
 import com.dev.test.storage.DatabaseManager;
+import com.dev.test.utils.TestUtils;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -36,15 +44,24 @@ import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
 public class AddProductActivity extends AppCompatActivity implements DatabaseCallback {
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.productImage) AppCompatImageView productImage;
-    @BindView(R.id.pickImage) AppCompatImageView pickImage;
-    @BindView(R.id.edProductName) AppCompatEditText edProductName;
-    @BindView(R.id.edProductLocation) AppCompatEditText edProductLocation;
-    @BindView(R.id.edProductPrice) AppCompatEditText edProductPrice;
-    @BindView(R.id.edProductDescription) AppCompatEditText edProductDescription;
-    @BindView(R.id.addProductParentLayout) CoordinatorLayout addProductParentLayout;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.productImage)
+    AppCompatImageView productImage;
+    @BindView(R.id.pickImage)
+    AppCompatImageView pickImage;
+    @BindView(R.id.edProductName)
+    AppCompatEditText edProductName;
+    @BindView(R.id.edProductLocation)
+    AppCompatEditText edProductLocation;
+    @BindView(R.id.edProductPrice)
+    AppCompatEditText edProductPrice;
+    @BindView(R.id.edProductDescription)
+    AppCompatEditText edProductDescription;
+    @BindView(R.id.addProductParentLayout)
+    CoordinatorLayout addProductParentLayout;
     private String productPhotoUrl;
+    private FusedLocationProviderClient mFusedLocationClient;
 
 
     @OnClick(R.id.pickImage)
@@ -81,6 +98,8 @@ public class AddProductActivity extends AppCompatActivity implements DatabaseCal
         setTitle("Add New Product");
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        getUserLocation();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -166,16 +185,20 @@ public class AddProductActivity extends AppCompatActivity implements DatabaseCal
     }
 
 
+    @TargetApi(21)
     private void requestPermissions() {
         Dexter.withActivity(this)
                 .withPermissions(
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CAMERA)
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
+                            getUserLocation();
                             Snackbar.make(addProductParentLayout, "All permissions are granted!", Snackbar.LENGTH_LONG).show();
                             EasyImage.openChooserWithDocuments(AddProductActivity.this, "Choose Option.", 0);
                         }
@@ -198,5 +221,21 @@ public class AddProductActivity extends AppCompatActivity implements DatabaseCal
                 })
                 .onSameThread()
                 .check();
+    }
+
+    private void getUserLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            String address = TestUtils.getCompleteAddressString(AddProductActivity.this, location.getLatitude(), location.getLongitude());
+                            edProductLocation.setText(address);
+                        }
+                    }
+                });
     }
 }

@@ -3,6 +3,7 @@ buildscript {
     ext.support_lib_version = '27.1.1'
     ext.butter_knife_version = '8.8.1'
     ext.glide_version = '4.7.1'
+    ext.play_services = '15.0.1'
     repositories {
         google()
         jcenter()
