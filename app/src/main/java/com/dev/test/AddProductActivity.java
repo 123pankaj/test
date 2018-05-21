@@ -15,8 +15,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.dev.test.datarepo.DatabaseCallback;
 import com.dev.test.entities.Product;
+import com.dev.test.storage.DatabaseCallback;
 import com.dev.test.storage.DatabaseManager;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;

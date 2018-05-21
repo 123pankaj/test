@@ -1,4 +1,4 @@
-package com.dev.test.datarepo;
+package com.dev.test.storage;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;

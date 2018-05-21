@@ -13,9 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.dev.test.adapter.ProductListAdapter;
-import com.dev.test.appcontroller.TestProductApp;
-import com.dev.test.datarepo.DatabaseCallback;
 import com.dev.test.entities.Product;
+import com.dev.test.storage.DatabaseCallback;
 import com.dev.test.storage.DatabaseManager;
 
 import java.util.List;
@@ -23,11 +22,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity implements DatabaseCallback{
+public class ProductListActivity extends AppCompatActivity implements DatabaseCallback {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.fab) FloatingActionButton fab;
     @BindView(R.id.parentLayout) CoordinatorLayout parentLayout;
@@ -36,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements DatabaseCallback{
 
     @OnClick(R.id.fab)
     void addProduct() {
-        startActivity(new Intent(MainActivity.this, AddProductActivity.class));
+        startActivity(new Intent(ProductListActivity.this, AddProductActivity.class));
     }
 
     @Override
@@ -53,13 +49,13 @@ public class MainActivity extends AppCompatActivity implements DatabaseCallback{
         setTitle("Product list");
         productViewList.setHasFixedSize(true);
         productViewList.setLayoutManager(new LinearLayoutManager(this));
-        _adapter = new ProductListAdapter();
+        _adapter = new ProductListAdapter(ProductListActivity.this);
         productViewList.setAdapter(_adapter);
 
         /**
          * Getting products from database
          */
-        DatabaseManager.getInstance(MainActivity.this).getAllProducts(this);
+        DatabaseManager.getInstance(ProductListActivity.this).getAllProducts(this);
     }
 
     @Override

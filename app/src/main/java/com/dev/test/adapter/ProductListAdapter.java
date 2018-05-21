@@ -1,7 +1,7 @@
 package com.dev.test.adapter;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.dev.test.ProductDetailActivity;
 import com.dev.test.R;
 import com.dev.test.entities.Product;
@@ -26,9 +25,11 @@ import butterknife.ButterKnife;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductListViewHolder> {
 
     private List<Product> dataList;
+    private Context _context;
 
-    public ProductListAdapter() {
-        dataList = new ArrayList<>();
+    public ProductListAdapter(Context context) {
+        this.dataList = new ArrayList<>();
+        this._context = context;
     }
 
     @NonNull
@@ -41,11 +42,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ProductListViewHolder holder, int position) {
         Product product = dataList.get(position);
-        holder.productName.setText("Name: "+product.getProductName());
-        holder.productPrice.setText("Price: "+product.getProductCost());
-        holder.productLocation.setText("Location: "+product.getProductLocation());
-        holder.productDescription.setText("Description: "+product.getProductDescription());
-        Glide.with(holder.productImage.getContext()).load(product.getProductImageUrl()).apply(new RequestOptions().override(500, 250).centerInside()).into(holder.productImage);
+        holder.productName.setText(_context.getString(R.string.name, product.getProductName()));
+        holder.productPrice.setText(_context.getString(R.string.price, product.getProductCost()));
+        holder.productLocation.setText(_context.getString(R.string.location, product.getProductLocation()));
+        holder.productDescription.setText(_context.getString(R.string.description, product.getProductDescription()));
+        Glide.with(holder.productImage.getContext()).load(product.getProductImageUrl()).into(holder.productImage);
     }
 
     public void setValues(List<Product> data) {

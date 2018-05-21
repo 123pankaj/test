@@ -1,4 +1,4 @@
-package com.dev.test.datarepo;
+package com.dev.test.storage;
 
 import com.dev.test.entities.Product;
 

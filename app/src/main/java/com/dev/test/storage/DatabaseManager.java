@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
-import com.dev.test.datarepo.DatabaseCallback;
 import com.dev.test.entities.Product;
 
 import java.util.List;

@@ -16,8 +16,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.dev.test.datarepo.DatabaseCallback;
 import com.dev.test.entities.Product;
+import com.dev.test.storage.DatabaseCallback;
 import com.dev.test.storage.DatabaseManager;
 
 import java.io.File;
